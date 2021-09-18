@@ -37,7 +37,7 @@
             border-radius: .25rem;
         }
     </style>
-    <style id="HexagonCode">
+    <style id="HexagonCodeCSS">
 .hexagon {
     position: relative;
     width: var(--hexagon-width); 
@@ -149,10 +149,20 @@
                 </div>
             </div>
             <div class="col">
-                Test
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="hexagonShadowBlur" placeholder="Blur (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="0" disabled>
+                  <label for="hexagonShadowBlur">Shadow Blur (px)</label>
+                </div>
+                <div class="form-floating">
+                  <input type="color" class="form-control" id="hexagonShadowColor" placeholder="Shadow Color" oninput="HexagonSizeChange();" value="#fff" disabled>
+                  <label for="hexagonShadowColor">Shadow Color</label>
+                </div>
             </div>
             <div class="col">
-                Test
+                <div class="form-floating">
+                  <input type="text" class="form-control" id="hexagonBootstrapIcon" placeholder="Bootstrap Icon (name)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="shield-check" disabled>
+                  <label for="hexagonBootstrapIcon">Bootstrap Icon (name)</label>
+                </div>
             </div>
         </section>
         <hr>
@@ -163,7 +173,10 @@
                 </div>
             </div>
             <div class="col">
-                <pre><code class="language-css" id="layHexagonCode">...</code></pre>
+                    <b>HTML:</b>
+                    <pre><code class="language-html" id="layHexagonCodeHTML">...</code></pre>
+                    <b>CSS:</b>
+                    <pre><code class="language-css" id="layHexagonCodeCSS">...</code></pre>
             </div>
         </section>
     </section>
@@ -191,7 +204,7 @@
             document.documentElement.style.setProperty('--hexagon-border-width', `${HexagonBorderSize}px`);
             document.documentElement.style.setProperty('--hexagon-border-beforeafter-width', `${HexagonBorderBeforeAfterWidth}px`);
 
-            document.getElementById("layHexagonCode").innerHTML =
+            document.getElementById("layHexagonCodeCSS").innerHTML =
 `:root {
     --hexagon-width: ${HexagonWidth}px;
     --hexagon-height: ${HexagonHeight}px;
@@ -205,7 +218,8 @@
     --hexagon-icon-color: #f47721;
     --hexagon-border-color: ${HexagonBorderColor};
 }
-            ` + document.getElementById("HexagonCode").innerHTML;
+            ` + document.getElementById("HexagonCodeCSS").innerHTML;
+            document.getElementById("layHexagonCodeHTML").innerHTML = `&lt;div class="hexagon"&gt&lt;i class="hexagon-icon bi bi-shield-check"&gt&lt;/i&gt&lt;/div&gt`;
             hljs.highlightAll();
         }
         HexagonSizeChange();

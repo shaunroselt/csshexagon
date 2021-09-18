@@ -193,6 +193,8 @@
             const HexagonBorderColor = document.getElementById('hexagonBorderColor').value;
             const HexagonBeforeAfterLeft = ((HexagonWidth - (HexagonWidth/Math.sqrt(2))) / 2) - HexagonBorderSize;
             const HexagonBorderBeforeAfterWidth = HexagonBorderSize * Math.sqrt(2);
+            const HexagonShadowBlur = document.getElementById('hexagonShadowBlur').value;
+            const HexagonShadowColor = document.getElementById('hexagonShadowColor').value;
             document.documentElement.style.setProperty('--hexagon-width', `${HexagonWidth}px`);
             document.documentElement.style.setProperty('--hexagon-height', `${HexagonHeight}px`);
             document.documentElement.style.setProperty('--hexagon-margin-top', `${HexagonMarginTop}px`);

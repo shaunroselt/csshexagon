@@ -117,7 +117,7 @@
         <section class="row mb-3">
             <div class="col">
                 <div class="form-floating">
-                  <input type="number" class="form-control" id="hexagonSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="210">
+                  <input type="number" class="form-control" id="hexagonSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="300">
                   <label for="hexagonSize">Size (px)</label>
                 </div>
             </div>
@@ -134,17 +134,17 @@
                     </div>
                 </div>
                 <div class="form-floating">
-                  <input type="color" class="form-control" id="hexagonColor" placeholder="Solid Color" oninput="HexagonSizeChange();">
+                  <input type="color" class="form-control" id="hexagonColor" placeholder="Solid Color" oninput="HexagonSizeChange();" value="#2b2f38">
                   <label for="hexagonColor">Solid Color</label>
                 </div>
             </div>
             <div class="col">
                 <div class="form-floating">
-                  <input type="number" class="form-control" id="hexagonBorderSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="0">
+                  <input type="number" class="form-control" id="hexagonBorderSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="10">
                   <label for="hexagonBorderSize">Border Size (px)</label>
                 </div>
                 <div class="form-floating">
-                  <input type="color" class="form-control" id="hexagonBorderColor" placeholder="Border Color" oninput="HexagonSizeChange();">
+                  <input type="color" class="form-control" id="hexagonBorderColor" placeholder="Border Color" oninput="HexagonSizeChange();" value="#f47721">
                   <label for="hexagonBorderColor">Border Color</label>
                 </div>
             </div>
@@ -170,24 +170,26 @@
 
     <script>
         function HexagonSizeChange(){
-            const HexagonBorderSize = document.getElementById('hexagonBorderSize').value;
-            const HexagonBorderColor = document.getElementById('hexagonBorderColor').value;
             const HexagonColor = document.getElementById('hexagonColor').value;
             const HexagonWidth = document.getElementById('hexagonSize').value;
             const HexagonHeight = HexagonWidth / Math.sqrt(3);
             const HexagonMarginTop = HexagonHeight/2;
             const HexagonBeforeAfterWidthHeight = HexagonWidth / Math.sqrt(2);
             const HexagonBeforeAftertopBottom = HexagonBeforeAfterWidthHeight / -2;
+            const HexagonBorderSize = document.getElementById('hexagonBorderSize').value;
+            const HexagonBorderColor = document.getElementById('hexagonBorderColor').value;
             const HexagonBeforeAfterLeft = ((HexagonWidth - (HexagonWidth/Math.sqrt(2))) / 2) - HexagonBorderSize;
+            const HexagonBorderBeforeAfterWidth = HexagonBorderSize * Math.sqrt(2);
             document.documentElement.style.setProperty('--hexagon-width', `${HexagonWidth}px`);
             document.documentElement.style.setProperty('--hexagon-height', `${HexagonHeight}px`);
             document.documentElement.style.setProperty('--hexagon-margin-top', `${HexagonMarginTop}px`);
             document.documentElement.style.setProperty('--hexagon-beforeafter-widthheight', `${HexagonBeforeAfterWidthHeight}px`);
             document.documentElement.style.setProperty('--hexagon-beforeafter-topbottom', `${HexagonBeforeAftertopBottom}px`);
             document.documentElement.style.setProperty('--hexagon-beforeafter-left', `${HexagonBeforeAfterLeft}px`);
-            document.documentElement.style.setProperty('--hexagon-border-width', `${HexagonBorderSize}px`);
-            document.documentElement.style.setProperty('--hexagon-border-color', `${HexagonBorderColor}`);
             document.documentElement.style.setProperty('--hexagon-color', `${HexagonColor}`);
+            document.documentElement.style.setProperty('--hexagon-border-color', `${HexagonBorderColor}`);
+            document.documentElement.style.setProperty('--hexagon-border-width', `${HexagonBorderSize}px`);
+            document.documentElement.style.setProperty('--hexagon-border-beforeafter-width', `${HexagonBorderBeforeAfterWidth}px`);
 
             document.getElementById("layHexagonCode").innerHTML =
 `:root {
@@ -198,7 +200,7 @@
     --hexagon-beforeafter-topbottom: ${HexagonBeforeAftertopBottom}px;
     --hexagon-beforeafter-left: ${HexagonBeforeAfterLeft}px;
     --hexagon-border-width: ${HexagonBorderSize}px;
-    --hexagon-border-beforeafter-width: 0px;
+    --hexagon-border-beforeafter-width: ${HexagonBorderBeforeAfterWidth}px;
     --hexagon-color: ${HexagonColor};
     --hexagon-icon-color: #f47721;
     --hexagon-border-color: ${HexagonBorderColor};

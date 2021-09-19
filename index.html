@@ -26,13 +26,14 @@
             --hexagon-border-width: 0px;
             --hexagon-border-beforeafter-width: 0px;
             --hexagon-color: #2b2f38;
-            --hexagon-icon-color: #f47721;
             --hexagon-border-color: #f47721;
             --hexagon-shadow-color: rgba(81,255,0,1);
             --hexagon-shadow-blur: 0px;
-            --hexagon-shadow-span-top: 5.773502691896257px;
-            --hexagon-shadow-span-width: 280px;
-            --hexagon-shadow-span-height: 161.6581px;
+            --hexagon-span-color: #f47721;
+            --hexagon-span-text-size: 25px;
+            --hexagon-span-top: 5.773502691896257px;
+            --hexagon-span-width: 280px;
+            --hexagon-span-height: 161.6581px;
         }
         .inputContainer {    
             padding: .375rem .75rem;
@@ -53,15 +54,6 @@
     border-left: solid var(--hexagon-border-width) var(--hexagon-border-color);
     border-right: solid var(--hexagon-border-width) var(--hexagon-border-color);
     display: grid;
-}
-
-.hexagon .hexagon-icon {
-    font-weight: bold;
-    font-size: 100px;
-    z-index: 999;
-    margin-left: 37px;
-    margin-top: -15px;
-    color: var(--hexagon-icon-color);
 }
 
 .hexagon:before,
@@ -90,12 +82,16 @@
 }
 
 .hexagon span { /* Hide shadows inside hexagon */
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
-    top: var(--hexagon-shadow-span-top);
+    font-size: var(--hexagon-span-text-size);
+    color: var(--hexagon-span-color);
+    top: var(--hexagon-span-top);
     left: 0;
-    width: var(--hexagon-shadow-span-width);
-    height: var(--hexagon-shadow-span-height);
+    width: var(--hexagon-span-width);
+    height: var(--hexagon-span-height);
     z-index: 2;
     background: inherit;
 }
@@ -177,12 +173,16 @@
             </div>
             <div class="col">
                 <div class="form-floating">
-                  <input type="text" class="form-control" id="hexagonBootstrapIcon" placeholder="Bootstrap Icon (name)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="shield-check" disabled>
-                  <label for="hexagonBootstrapIcon">Bootstrap Icon (name)</label>
+                  <input type="text" class="form-control" id="hexagonText" placeholder="Text" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="I am text!">
+                  <label for="hexagonText">Text</label>
                 </div>
                 <div class="form-floating">
-                  <input type="color" class="form-control" id="hexagonBootstrapIconColor" placeholder="Icon Color" oninput="HexagonSizeChange();" value="#f47721">
-                  <label for="hexagonBootstrapIconColor">Icon Color</label>
+                  <input type="color" class="form-control" id="hexagonTextColor" placeholder="Text Color" oninput="HexagonSizeChange();" value="#f47721">
+                  <label for="hexagonTextColor">Text Color</label>
+                </div>
+                <div class="form-floating">
+                  <input type="number" class="form-control" id="hexagonTextSize" placeholder="Text Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="25">
+                  <label for="hexagonTextSize">Text Size (px)</label>
                 </div>
             </div>
         </section>
@@ -190,8 +190,7 @@
         <section class="row mb-3" id="layHexagon">
             <div class="col">
                 <div class="hexagon">
-                    <span><!--Hide shadows inside hexagon--></span>
-                    <i class="hexagon-icon bi bi-shield-check"></i>
+                    <span id="layHexagonText"></span>
                 </div>
             </div>
             <div class="col">
@@ -226,13 +225,15 @@
             const HexagonBorderColor = document.getElementById('hexagonBorderColor').value;
             const HexagonBeforeAfterLeft = ((HexagonWidth - (HexagonWidth/Math.sqrt(2))) / 2) - HexagonBorderSize;
             const HexagonBorderBeforeAfterWidth = HexagonBorderSize * Math.sqrt(2);
-            const HexagonIconColor = document.getElementById('hexagonBootstrapIconColor').value;
             const HexagonShadowBlur = document.getElementById('hexagonShadowBlur').value;
             const HexagonShadowColor = document.getElementById('hexagonShadowColor').value;
             const HexagonShadowColorArrayRGB = ColorHexToRGB(HexagonShadowColor);
+            const hexagonSpanText = document.getElementById("hexagonText").value;
+            const hexagonSpanTextSize = document.getElementById("hexagonTextSize").value;
+            const hexagonSpanColor = document.getElementById('hexagonTextColor').value;
             const HexagonShadowSpanTop = HexagonBorderSize * Math.tan(30 * Math.PI/180);
-            const HexagonShadowSpanWidth = HexagonWidth - (HexagonBorderSize * 2); // size - ($scope.borderWidth * 2)
-            const HexagonShadowSpanHeight = (HexagonHeight - (HexagonBorderSize * Math.tan(30 * Math.PI/180) * 2)).toFixed(4); // Math.tan(30 * Math.PI/180) // ($scope.getHeight($scope.size) - ($scope.borderWidth * $scope.scaleFactor * 2)).toFixed(4)
+            const HexagonShadowSpanWidth = HexagonWidth - (HexagonBorderSize * 2); 
+            const HexagonShadowSpanHeight = (HexagonHeight - (HexagonBorderSize * Math.tan(30 * Math.PI/180) * 2)).toFixed(4);
             document.documentElement.style.setProperty('--hexagon-width', `${HexagonWidth}px`);
             document.documentElement.style.setProperty('--hexagon-height', `${HexagonHeight}px`);
             document.documentElement.style.setProperty('--hexagon-margin-top', `${HexagonMarginTop}px`);
@@ -243,12 +244,15 @@
             document.documentElement.style.setProperty('--hexagon-border-color', `${HexagonBorderColor}`);
             document.documentElement.style.setProperty('--hexagon-border-width', `${HexagonBorderSize}px`);
             document.documentElement.style.setProperty('--hexagon-border-beforeafter-width', `${HexagonBorderBeforeAfterWidth}px`);
-            document.documentElement.style.setProperty('--hexagon-icon-color', `${HexagonIconColor}`);
             document.documentElement.style.setProperty('--hexagon-shadow-blur', `${HexagonShadowBlur}px`);
             document.documentElement.style.setProperty('--hexagon-shadow-color', `rgba(${HexagonShadowColorArrayRGB[0]},${HexagonShadowColorArrayRGB[1]},${HexagonShadowColorArrayRGB[2]},1)`);
-            document.documentElement.style.setProperty('--hexagon-shadow-span-top', `${HexagonShadowSpanTop}px`);
-            document.documentElement.style.setProperty('--hexagon-shadow-span-width', `${HexagonShadowSpanWidth}px`);
-            document.documentElement.style.setProperty('--hexagon-shadow-span-height', `${HexagonShadowSpanHeight}px`);
+            document.getElementById("layHexagonText").innerHTML = hexagonSpanText;
+            document.documentElement.style.setProperty('--hexagon-span-text-size', `${hexagonSpanTextSize}px`);
+            document.documentElement.style.setProperty('--hexagon-span-color', `${hexagonSpanColor}`);
+            document.documentElement.style.setProperty('--hexagon-span-top', `${HexagonShadowSpanTop}px`);
+            document.documentElement.style.setProperty('--hexagon-span-width', `${HexagonShadowSpanWidth}px`);
+            document.documentElement.style.setProperty('--hexagon-span-height', `${HexagonShadowSpanHeight}px`);
+            
 
             document.getElementById("layHexagonCodeCSS").innerHTML =
 `:root {
@@ -261,19 +265,19 @@
     --hexagon-border-width: ${HexagonBorderSize}px;
     --hexagon-border-beforeafter-width: ${HexagonBorderBeforeAfterWidth}px;
     --hexagon-color: ${HexagonColor};
-    --hexagon-icon-color: ${HexagonIconColor};
     --hexagon-border-color: ${HexagonBorderColor};
     --hexagon-shadow-color: rgba(${HexagonShadowColorArrayRGB[0]},${HexagonShadowColorArrayRGB[1]},${HexagonShadowColorArrayRGB[2]},1);
     --hexagon-shadow-blur: ${HexagonShadowBlur}px;
-    --hexagon-shadow-span-top: ${HexagonShadowSpanTop}px;
-    --hexagon-shadow-span-width: ${HexagonShadowSpanWidth}px;
-    --hexagon-shadow-span-height: ${HexagonShadowSpanHeight}px;
+    --hexagon-span-color: ${hexagonSpanColor};
+    --hexagon-span-text-size: ${hexagonSpanTextSize}px;
+    --hexagon-span-top: ${HexagonShadowSpanTop}px;
+    --hexagon-span-width: ${HexagonShadowSpanWidth}px;
+    --hexagon-span-height: ${HexagonShadowSpanHeight}px;
 }
             ` + document.getElementById("HexagonCodeCSS").innerHTML;
-            let HexagonHTML = `
-<div class="hexagon">
-    <span><!--Hide shadows inside hexagon--></span>
-    <i class="hexagon-icon bi bi-shield-check"></i>
+            let HexagonHTML = 
+`<div class="hexagon">
+    <span>${hexagonSpanText}</span>
 </div>`;
             HexagonHTML = HexagonHTML.replaceAll("<","&lt;");
             HexagonHTML = HexagonHTML.replaceAll(">","&gt");

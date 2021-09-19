@@ -1,4 +1,4 @@
-# csshexagon
+# CSS Hexagon Generator
 Pure CSS Hexagon Generator, built in vanilla JavaScript.
 
 This project is still in very early phases of development.

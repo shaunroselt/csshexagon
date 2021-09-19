@@ -216,20 +216,24 @@
         }
         function HexagonSizeChange(){
             const HexagonColor = document.getElementById('hexagonColor').value; 
-            const HexagonWidth = document.getElementById('hexagonSize').value; 
+            let HexagonWidth = document.getElementById('hexagonSize').value; 
+            if (HexagonWidth == "") HexagonWidth = 0;
             const HexagonHeight = HexagonWidth / Math.sqrt(3);
             const HexagonMarginTop = HexagonHeight/2;
             const HexagonBeforeAfterWidthHeight = HexagonWidth / Math.sqrt(2);
             const HexagonBeforeAftertopBottom = HexagonBeforeAfterWidthHeight / -2;
-            const HexagonBorderSize = document.getElementById('hexagonBorderSize').value;
+            let HexagonBorderSize = document.getElementById('hexagonBorderSize').value;
+            if (HexagonBorderSize == "") HexagonBorderSize = 0;
             const HexagonBorderColor = document.getElementById('hexagonBorderColor').value;
             const HexagonBeforeAfterLeft = ((HexagonWidth - (HexagonWidth/Math.sqrt(2))) / 2) - HexagonBorderSize;
             const HexagonBorderBeforeAfterWidth = HexagonBorderSize * Math.sqrt(2);
-            const HexagonShadowBlur = document.getElementById('hexagonShadowBlur').value;
+            let HexagonShadowBlur = document.getElementById('hexagonShadowBlur').value;
+            if (HexagonShadowBlur == "") HexagonShadowBlur = 0;
             const HexagonShadowColor = document.getElementById('hexagonShadowColor').value;
             const HexagonShadowColorArrayRGB = ColorHexToRGB(HexagonShadowColor);
             const hexagonSpanText = document.getElementById("hexagonText").value;
-            const hexagonSpanTextSize = document.getElementById("hexagonTextSize").value;
+            let hexagonSpanTextSize = document.getElementById("hexagonTextSize").value;
+            if (hexagonSpanTextSize == "") hexagonSpanTextSize = 0;
             const hexagonSpanColor = document.getElementById('hexagonTextColor').value;
             const HexagonShadowSpanTop = HexagonBorderSize * Math.tan(30 * Math.PI/180);
             const HexagonShadowSpanWidth = HexagonWidth - (HexagonBorderSize * 2); 

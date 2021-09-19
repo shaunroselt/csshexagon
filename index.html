@@ -28,6 +28,8 @@
             --hexagon-color: #2b2f38;
             --hexagon-icon-color: #f47721;
             --hexagon-border-color: #f47721;
+            --hexagon-shadow-color: rgba(81,255,0,1);
+            --hexagon-shadow-blur: 0px;
         }
         .inputContainer {    
             padding: .375rem .75rem;
@@ -44,6 +46,7 @@
     height: var(--hexagon-height);
     background-color: var(--hexagon-color);
     margin: var(--hexagon-margin-top) auto 0 auto;
+    box-shadow: 0 0 var(--hexagon-shadow-blur) var(--hexagon-shadow-color);
     border-left: solid var(--hexagon-border-width) var(--hexagon-border-color);
     border-right: solid var(--hexagon-border-width) var(--hexagon-border-color);
     display: grid;
@@ -55,7 +58,6 @@
     z-index: 999;
     margin-left: 37px;
     margin-top: -15px;
-    transition: all .4s;
     color: var(--hexagon-icon-color);
 }
 
@@ -163,6 +165,10 @@
                   <input type="text" class="form-control" id="hexagonBootstrapIcon" placeholder="Bootstrap Icon (name)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="shield-check" disabled>
                   <label for="hexagonBootstrapIcon">Bootstrap Icon (name)</label>
                 </div>
+                <div class="form-floating">
+                  <input type="color" class="form-control" id="hexagonBootstrapIconColor" placeholder="Icon Color" oninput="HexagonSizeChange();" value="#f47721">
+                  <label for="hexagonBootstrapIconColor">Icon Color</label>
+                </div>
             </div>
         </section>
         <hr>
@@ -182,9 +188,20 @@
     </section>
 
     <script>
+        function ColorHexToRGB(Hex){
+            if (Hex[0] == "#") Hex = Hex.slice(1);
+            if (Hex.length != 6) throw "Only six-digit hex colors are allowed.";
+            const ArrayHex = Hex.match(/.{1,2}/g);
+            const ArrayRGB = [
+                parseInt(ArrayHex[0], 16),
+                parseInt(ArrayHex[1], 16),
+                parseInt(ArrayHex[2], 16)
+            ];
+            return ArrayRGB;
+        }
         function HexagonSizeChange(){
-            const HexagonColor = document.getElementById('hexagonColor').value;
-            const HexagonWidth = document.getElementById('hexagonSize').value;
+            const HexagonColor = document.getElementById('hexagonColor').value; 
+            const HexagonWidth = document.getElementById('hexagonSize').value; 
             const HexagonHeight = HexagonWidth / Math.sqrt(3);
             const HexagonMarginTop = HexagonHeight/2;
             const HexagonBeforeAfterWidthHeight = HexagonWidth / Math.sqrt(2);
@@ -193,8 +210,10 @@
             const HexagonBorderColor = document.getElementById('hexagonBorderColor').value;
             const HexagonBeforeAfterLeft = ((HexagonWidth - (HexagonWidth/Math.sqrt(2))) / 2) - HexagonBorderSize;
             const HexagonBorderBeforeAfterWidth = HexagonBorderSize * Math.sqrt(2);
+            const HexagonIconColor = document.getElementById('hexagonBootstrapIconColor').value;
             const HexagonShadowBlur = document.getElementById('hexagonShadowBlur').value;
             const HexagonShadowColor = document.getElementById('hexagonShadowColor').value;
+            const HexagonShadowColorArrayRGB = ColorHexToRGB(HexagonColor);
             document.documentElement.style.setProperty('--hexagon-width', `${HexagonWidth}px`);
             document.documentElement.style.setProperty('--hexagon-height', `${HexagonHeight}px`);
             document.documentElement.style.setProperty('--hexagon-margin-top', `${HexagonMarginTop}px`);
@@ -205,6 +224,7 @@
             document.documentElement.style.setProperty('--hexagon-border-color', `${HexagonBorderColor}`);
             document.documentElement.style.setProperty('--hexagon-border-width', `${HexagonBorderSize}px`);
             document.documentElement.style.setProperty('--hexagon-border-beforeafter-width', `${HexagonBorderBeforeAfterWidth}px`);
+            document.documentElement.style.setProperty('--hexagon-icon-color', `${HexagonIconColor}`);
 
             document.getElementById("layHexagonCodeCSS").innerHTML =
 `:root {
@@ -217,8 +237,10 @@
     --hexagon-border-width: ${HexagonBorderSize}px;
     --hexagon-border-beforeafter-width: ${HexagonBorderBeforeAfterWidth}px;
     --hexagon-color: ${HexagonColor};
-    --hexagon-icon-color: #f47721;
+    --hexagon-icon-color: ${HexagonIconColor};
     --hexagon-border-color: ${HexagonBorderColor};
+    --hexagon-shadow-color: rgba(${HexagonShadowColorArrayRGB.R},${HexagonShadowColorArrayRGB.G},${HexagonShadowColorArrayRGB.B},1);
+    --hexagon-shadow-blur: ${HexagonShadowBlur}px;
 }
             ` + document.getElementById("HexagonCodeCSS").innerHTML;
             document.getElementById("layHexagonCodeHTML").innerHTML = `&lt;div class="hexagon"&gt&lt;i class="hexagon-icon bi bi-shield-check"&gt&lt;/i&gt&lt;/div&gt`;

@@ -81,7 +81,7 @@
     border-left: solid var(--hexagon-border-beforeafter-width) var(--hexagon-border-color);
 }
 
-.hexagon span { /* Hide shadows inside hexagon */
+.hexagon span {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -133,10 +133,15 @@
                   <input type="number" class="form-control" id="hexagonSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="300">
                   <label for="hexagonSize">Size (px)</label>
                 </div>
+                <div class="form-floating inputContainer">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="hexagonVariablesCSS" onchange="HexagonSizeChange();">
+                        <label class="form-check-label" for="hexagonVariablesCSS">Variables</label>
+                    </div>
+                </div>
             </div>
             <div class="col">
                 <div class="form-floating inputContainer">
-                    <b>Background: </b>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
                         <label class="form-check-label" for="inlineRadio1">Solid Color</label>
@@ -238,6 +243,7 @@
             const HexagonShadowSpanTop = HexagonBorderSize * Math.tan(30 * Math.PI/180);
             const HexagonShadowSpanWidth = HexagonWidth - (HexagonBorderSize * 2); 
             const HexagonShadowSpanHeight = (HexagonHeight - (HexagonBorderSize * Math.tan(30 * Math.PI/180) * 2)).toFixed(4);
+            const HexagonVariablesCSS = document.getElementById('hexagonVariablesCSS').checked;
             document.documentElement.style.setProperty('--hexagon-width', `${HexagonWidth}px`);
             document.documentElement.style.setProperty('--hexagon-height', `${HexagonHeight}px`);
             document.documentElement.style.setProperty('--hexagon-margin-top', `${HexagonMarginTop}px`);
@@ -257,8 +263,8 @@
             document.documentElement.style.setProperty('--hexagon-span-width', `${HexagonShadowSpanWidth}px`);
             document.documentElement.style.setProperty('--hexagon-span-height', `${HexagonShadowSpanHeight}px`);
             
-
-            document.getElementById("layHexagonCodeCSS").innerHTML =
+            if (HexagonVariablesCSS){
+                document.getElementById("layHexagonCodeCSS").innerHTML =
 `:root {
     --hexagon-width: ${HexagonWidth}px;
     --hexagon-height: ${HexagonHeight}px;
@@ -278,7 +284,29 @@
     --hexagon-span-width: ${HexagonShadowSpanWidth}px;
     --hexagon-span-height: ${HexagonShadowSpanHeight}px;
 }
-            ` + document.getElementById("HexagonCodeCSS").innerHTML;
+                ` + document.getElementById("HexagonCodeCSS").innerHTML;
+            } else {
+                let HexagonCodeCSS = document.getElementById("HexagonCodeCSS").innerHTML;
+                if ((HexagonCodeCSS.charAt(0) != ".") || (HexagonCodeCSS.charAt(0) != ":")) HexagonCodeCSS = HexagonCodeCSS.slice(1);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-width)",`${HexagonWidth}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-height)",`${HexagonHeight}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-margin-top)",`${HexagonMarginTop}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-beforeafter-widthheight)",`${HexagonBeforeAfterWidthHeight}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-beforeafter-topbottom)",`${HexagonBeforeAftertopBottom}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-beforeafter-left)",`${HexagonBeforeAfterLeft}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-border-width)",`${HexagonBorderSize}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-border-beforeafter-width)",`${HexagonBorderBeforeAfterWidth}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-color)",`${HexagonColor}`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-border-color)",`${HexagonBorderColor}`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-shadow-color)",`rgba(${HexagonShadowColorArrayRGB[0]},${HexagonShadowColorArrayRGB[1]},${HexagonShadowColorArrayRGB[2]},1)`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-shadow-blur)",`${HexagonShadowBlur}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-color)",`${hexagonSpanColor}`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-text-size)",`${hexagonSpanTextSize}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-top)",`${HexagonShadowSpanTop}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-width)",`${HexagonShadowSpanWidth}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-height)",`${HexagonShadowSpanHeight}px`);
+                document.getElementById("layHexagonCodeCSS").innerHTML = HexagonCodeCSS;
+            }
             let HexagonHTML = 
 `<div class="hexagon">
     <span>${hexagonSpanText}</span>

@@ -17,6 +17,7 @@
 
     <style>
         :root {
+            --hexagon-cursor: default;
             --hexagon-width: 210px;
             --hexagon-height: 121.24px;
             --hexagon-margin-top: 60.62px;
@@ -45,6 +46,7 @@
     </style>
     <style id="HexagonCodeCSS">
 .hexagon {
+    cursor: var(--hexagon-cursor);
     position: relative;
     width: var(--hexagon-width); 
     height: var(--hexagon-height);
@@ -95,6 +97,11 @@
     z-index: 2;
     background: inherit;
 }
+
+/* .hexagon:hover::before {
+    border-top: solid var(--hexagon-border-beforeafter-width) #570de0;
+    border-right: solid var(--hexagon-border-beforeafter-width) #570de0;
+} */
     </style>
 </head>
 
@@ -114,14 +121,14 @@
                     <img src="https://www.shaunroselt.com/wp-content/uploads/2018/10/20180418_150509-e1539863337972-768x768.jpg" alt="Shaun Roselt" width="34" height="34" class="rounded-circle"> Shaun Roselt
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" href="https://www.shaunroselt.com/"><i class="bi bi-globe"></i> Personal Website</a></li>
-                    <li><a class="dropdown-item" href="https://www.facebook.com/shaunroselt0"><i class="bi bi-facebook"></i> Facebook</a></li>
-                    <li><a class="dropdown-item" href="https://twitter.com/shaunroselt"><i class="bi bi-twitter"></i> Twitter</a></li>
-                    <li><a class="dropdown-item" href="https://www.instagram.com/shaun.roselt/"><i class="bi bi-instagram"></i> Instagram</a></li>
-                    <li><a class="dropdown-item" href="https://www.youtube.com/ShaunRoselt?sub_confirmation=1"><i class="bi bi-youtube"></i> YouTube</a></li>
-                    <li><a class="dropdown-item" href="https://za.linkedin.com/in/shaunroselt"><i class="bi bi-linkedin"></i> LinkedIn</a></li>
-                    <li><a class="dropdown-item" href="https://steamcommunity.com/id/ShaunRoselt"><i class="bi bi-controller"></i> Steam</a></li>
-                    <li><a class="dropdown-item" href="https://github.com/shaunroselt/"><i class="bi bi-github"></i> GitHub</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://www.shaunroselt.com/"><i class="bi bi-globe"></i> Personal Website</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://www.facebook.com/shaunroselt0"><i class="bi bi-facebook"></i> Facebook</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://twitter.com/shaunroselt"><i class="bi bi-twitter"></i> Twitter</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://www.instagram.com/shaun.roselt/"><i class="bi bi-instagram"></i> Instagram</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://www.youtube.com/ShaunRoselt?sub_confirmation=1"><i class="bi bi-youtube"></i> YouTube</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://za.linkedin.com/in/shaunroselt"><i class="bi bi-linkedin"></i> LinkedIn</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://steamcommunity.com/id/ShaunRoselt"><i class="bi bi-controller"></i> Steam</a></li>
+                    <li><a class="dropdown-item" target="_blank" href="https://github.com/shaunroselt/"><i class="bi bi-github"></i> GitHub</a></li>
                 </ul>
             </div>
         </div>
@@ -132,6 +139,45 @@
                 <div class="form-floating">
                   <input type="number" class="form-control" id="hexagonSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="300">
                   <label for="hexagonSize">Size (px)</label>
+                </div>
+                <div class="form-floating">
+                    <select class="form-select" id="hexagonCursor" aria-label="Floating label select" onchange="HexagonSizeChange();">
+                        <option value="alias">alias</option>
+                        <option value="all-scroll">all-scroll</option>
+                        <option value="auto">auto</option>
+                        <option value="cell">cell</option>
+                        <option value="context-menu">context-menu</option>
+                        <option value="col-resize">col-resize</option>
+                        <option value="copy">copy</option>
+                        <option value="crosshair">crosshair</option>
+                        <option value="default" selected>default</option>
+                        <option value="e-resize">e-resize</option>
+                        <option value="ew-resize">ew-resize</option>
+                        <option value="grab">grab</option>
+                        <option value="grabbing">grabbing</option>
+                        <option value="help">help</option>
+                        <option value="move">move</option>
+                        <option value="n-resize">n-resize</option>
+                        <option value="ne-resize">ne-resize</option>
+                        <option value="nesw-resize">nesw-resize</option>
+                        <option value="ns-resize">ns-resize</option>
+                        <option value="nw-resize">nw-resize</option>
+                        <option value="nwse-resize">nwse-resize</option>
+                        <option value="no-drop">no-drop</option>
+                        <option value="not-allowed">not-allowed</option>
+                        <option value="pointer">pointer</option>
+                        <option value="progress">progress</option>
+                        <option value="row-resize">row-resize</option>
+                        <option value="s-resize">s-resize</option>
+                        <option value="se-resize">se-resize</option>
+                        <option value="sw-resize">sw-resize</option>
+                        <option value="text">text</option>
+                        <option value="w-resize">w-resize</option>
+                        <option value="wait">wait</option>
+                        <option value="zoom-in">zoom-in</option>
+                        <option value="zoom-out">zoom-out</option>
+                    </select>
+                    <label for="hexagonCursor">Cursor</label>
                 </div>
                 <div class="form-floating inputContainer">
                     <div class="form-check">
@@ -220,52 +266,55 @@
             return ArrayRGB;
         }
         function HexagonSizeChange(){
-            const HexagonColor = document.getElementById('hexagonColor').value; 
-            let HexagonWidth = document.getElementById('hexagonSize').value; 
+            const HexagonCursor = document.getElementById("hexagonCursor").value;
+            const HexagonColor = document.getElementById("hexagonColor").value; 
+            let HexagonWidth = document.getElementById("hexagonSize").value; 
             if (HexagonWidth == "") HexagonWidth = 0;
             const HexagonHeight = HexagonWidth / Math.sqrt(3);
             const HexagonMarginTop = HexagonHeight/2;
             const HexagonBeforeAfterWidthHeight = HexagonWidth / Math.sqrt(2);
             const HexagonBeforeAftertopBottom = HexagonBeforeAfterWidthHeight / -2;
-            let HexagonBorderSize = document.getElementById('hexagonBorderSize').value;
+            let HexagonBorderSize = document.getElementById("hexagonBorderSize").value;
             if (HexagonBorderSize == "") HexagonBorderSize = 0;
-            const HexagonBorderColor = document.getElementById('hexagonBorderColor').value;
+            const HexagonBorderColor = document.getElementById("hexagonBorderColor").value;
             const HexagonBeforeAfterLeft = ((HexagonWidth - (HexagonWidth/Math.sqrt(2))) / 2) - HexagonBorderSize;
             const HexagonBorderBeforeAfterWidth = HexagonBorderSize * Math.sqrt(2);
-            let HexagonShadowBlur = document.getElementById('hexagonShadowBlur').value;
+            let HexagonShadowBlur = document.getElementById("hexagonShadowBlur").value;
             if (HexagonShadowBlur == "") HexagonShadowBlur = 0;
-            const HexagonShadowColor = document.getElementById('hexagonShadowColor').value;
+            const HexagonShadowColor = document.getElementById("hexagonShadowColor").value;
             const HexagonShadowColorArrayRGB = ColorHexToRGB(HexagonShadowColor);
             const hexagonSpanText = document.getElementById("hexagonText").value;
             let hexagonSpanTextSize = document.getElementById("hexagonTextSize").value;
             if (hexagonSpanTextSize == "") hexagonSpanTextSize = 0;
-            const hexagonSpanColor = document.getElementById('hexagonTextColor').value;
+            const hexagonSpanColor = document.getElementById("hexagonTextColor").value;
             const HexagonShadowSpanTop = HexagonBorderSize * Math.tan(30 * Math.PI/180);
             const HexagonShadowSpanWidth = HexagonWidth - (HexagonBorderSize * 2); 
             const HexagonShadowSpanHeight = (HexagonHeight - (HexagonBorderSize * Math.tan(30 * Math.PI/180) * 2)).toFixed(4);
-            const HexagonVariablesCSS = document.getElementById('hexagonVariablesCSS').checked;
-            document.documentElement.style.setProperty('--hexagon-width', `${HexagonWidth}px`);
-            document.documentElement.style.setProperty('--hexagon-height', `${HexagonHeight}px`);
-            document.documentElement.style.setProperty('--hexagon-margin-top', `${HexagonMarginTop}px`);
-            document.documentElement.style.setProperty('--hexagon-beforeafter-widthheight', `${HexagonBeforeAfterWidthHeight}px`);
-            document.documentElement.style.setProperty('--hexagon-beforeafter-topbottom', `${HexagonBeforeAftertopBottom}px`);
-            document.documentElement.style.setProperty('--hexagon-beforeafter-left', `${HexagonBeforeAfterLeft}px`);
-            document.documentElement.style.setProperty('--hexagon-color', `${HexagonColor}`);
-            document.documentElement.style.setProperty('--hexagon-border-color', `${HexagonBorderColor}`);
-            document.documentElement.style.setProperty('--hexagon-border-width', `${HexagonBorderSize}px`);
-            document.documentElement.style.setProperty('--hexagon-border-beforeafter-width', `${HexagonBorderBeforeAfterWidth}px`);
-            document.documentElement.style.setProperty('--hexagon-shadow-blur', `${HexagonShadowBlur}px`);
-            document.documentElement.style.setProperty('--hexagon-shadow-color', `rgba(${HexagonShadowColorArrayRGB[0]},${HexagonShadowColorArrayRGB[1]},${HexagonShadowColorArrayRGB[2]},1)`);
+            const HexagonVariablesCSS = document.getElementById("hexagonVariablesCSS").checked;
+            document.documentElement.style.setProperty("--hexagon-cursor", `${HexagonCursor}`);
+            document.documentElement.style.setProperty("--hexagon-width", `${HexagonWidth}px`);
+            document.documentElement.style.setProperty("--hexagon-height", `${HexagonHeight}px`);
+            document.documentElement.style.setProperty("--hexagon-margin-top", `${HexagonMarginTop}px`);
+            document.documentElement.style.setProperty("--hexagon-beforeafter-widthheight", `${HexagonBeforeAfterWidthHeight}px`);
+            document.documentElement.style.setProperty("--hexagon-beforeafter-topbottom", `${HexagonBeforeAftertopBottom}px`);
+            document.documentElement.style.setProperty("--hexagon-beforeafter-left", `${HexagonBeforeAfterLeft}px`);
+            document.documentElement.style.setProperty("--hexagon-color", `${HexagonColor}`);
+            document.documentElement.style.setProperty("--hexagon-border-color", `${HexagonBorderColor}`);
+            document.documentElement.style.setProperty("--hexagon-border-width", `${HexagonBorderSize}px`);
+            document.documentElement.style.setProperty("--hexagon-border-beforeafter-width", `${HexagonBorderBeforeAfterWidth}px`);
+            document.documentElement.style.setProperty("--hexagon-shadow-blur", `${HexagonShadowBlur}px`);
+            document.documentElement.style.setProperty("--hexagon-shadow-color", `rgba(${HexagonShadowColorArrayRGB[0]},${HexagonShadowColorArrayRGB[1]},${HexagonShadowColorArrayRGB[2]},1)`);
             document.getElementById("layHexagonText").innerHTML = hexagonSpanText;
-            document.documentElement.style.setProperty('--hexagon-span-text-size', `${hexagonSpanTextSize}px`);
-            document.documentElement.style.setProperty('--hexagon-span-color', `${hexagonSpanColor}`);
-            document.documentElement.style.setProperty('--hexagon-span-top', `${HexagonShadowSpanTop}px`);
-            document.documentElement.style.setProperty('--hexagon-span-width', `${HexagonShadowSpanWidth}px`);
-            document.documentElement.style.setProperty('--hexagon-span-height', `${HexagonShadowSpanHeight}px`);
+            document.documentElement.style.setProperty("--hexagon-span-text-size", `${hexagonSpanTextSize}px`);
+            document.documentElement.style.setProperty("--hexagon-span-color", `${hexagonSpanColor}`);
+            document.documentElement.style.setProperty("--hexagon-span-top", `${HexagonShadowSpanTop}px`);
+            document.documentElement.style.setProperty("--hexagon-span-width", `${HexagonShadowSpanWidth}px`);
+            document.documentElement.style.setProperty("--hexagon-span-height", `${HexagonShadowSpanHeight}px`);
             
             if (HexagonVariablesCSS){
                 document.getElementById("layHexagonCodeCSS").innerHTML =
 `:root {
+    --hexagon-cursor: ${HexagonCursor};
     --hexagon-width: ${HexagonWidth}px;
     --hexagon-height: ${HexagonHeight}px;
     --hexagon-margin-top: ${HexagonMarginTop}px;
@@ -288,6 +337,7 @@
             } else {
                 let HexagonCodeCSS = document.getElementById("HexagonCodeCSS").innerHTML;
                 if ((HexagonCodeCSS.charAt(0) != ".") || (HexagonCodeCSS.charAt(0) != ":")) HexagonCodeCSS = HexagonCodeCSS.slice(1);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-cursor)",`${HexagonCursor}`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-width)",`${HexagonWidth}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-height)",`${HexagonHeight}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-margin-top)",`${HexagonMarginTop}px`);

@@ -7,3 +7,4 @@ Plans:
 - Image Background
 - Shadow Blur Color Alpha
 - Rotate hexagon for flat top
+- Index Page URL sharable (Store values in query string)

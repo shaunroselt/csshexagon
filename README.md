@@ -7,4 +7,4 @@ Plans:
 - Image Background
 - Shadow Blur Color Alpha
 - Rotate hexagon for flat top
-- Hover effects
+- Transition for Hover effects

@@ -35,6 +35,24 @@
             --hexagon-span-top: 5.773502691896257px;
             --hexagon-span-width: 280px;
             --hexagon-span-height: 161.6581px;
+            
+            --hexagon-hover-width: 210px;
+            --hexagon-hover-height: 121.24px;
+            --hexagon-hover-margin-top: 60.62px;
+            --hexagon-hover-beforeafter-widthheight: 148.49px;
+            --hexagon-hover-beforeafter-topbottom: -74.2462px;
+            --hexagon-hover-beforeafter-left: 30.7538px;
+            --hexagon-hover-border-width: 0px;
+            --hexagon-hover-border-beforeafter-width: 0px;
+            --hexagon-hover-color: #2b2f38;
+            --hexagon-hover-border-color: #f47721;
+            --hexagon-hover-shadow-color: rgba(81,255,0,1);
+            --hexagon-hover-shadow-blur: 0px;
+            --hexagon-hover-span-color: #f47721;
+            --hexagon-hover-span-text-size: 25px;
+            --hexagon-hover-span-top: 5.773502691896257px;
+            --hexagon-hover-span-width: 280px;
+            --hexagon-hover-span-height: 161.6581px;
         }
         .inputContainer {    
             padding: .375rem .75rem;
@@ -58,8 +76,7 @@
     display: grid;
 }
 
-.hexagon:before,
-.hexagon:after {
+.hexagon:before, .hexagon:after {
     content: "";
     position: absolute;
     z-index: 1;
@@ -97,6 +114,44 @@
     z-index: 2;
     background: inherit;
 }
+
+.hexagon:hover {
+    width: var(--hexagon-hover-width); 
+    height: var(--hexagon-hover-height);
+    background-color: var(--hexagon-hover-color);
+    margin: var(--hexagon-hover-margin-top) auto 0 auto;
+    box-shadow: 0 0 var(--hexagon-hover-shadow-blur) var(--hexagon-hover-shadow-color);
+    border-left: solid var(--hexagon-hover-border-width) var(--hexagon-hover-border-color);
+    border-right: solid var(--hexagon-hover-border-width) var(--hexagon-hover-border-color);
+}
+
+.hexagon:hover:before, .hexagon:hover:after {
+    width: var(--hexagon-hover-beforeafter-widthheight);
+    height: var(--hexagon-hover-beforeafter-widthheight);
+    transform: scaleY(0.5774) rotate(-45deg);
+    left: var(--hexagon-hover-beforeafter-left);
+    box-shadow: 0 0 var(--hexagon-hover-shadow-blur) var(--hexagon-hover-shadow-color);
+}
+
+.hexagon:hover:before {
+    top: var(--hexagon-hover-beforeafter-topbottom);
+    border-top: solid var(--hexagon-hover-border-beforeafter-width) var(--hexagon-hover-border-color);
+    border-right: solid var(--hexagon-hover-border-beforeafter-width) var(--hexagon-hover-border-color);
+}
+
+.hexagon:hover:after {
+    bottom: var(--hexagon-hover-beforeafter-topbottom);
+    border-bottom: solid var(--hexagon-hover-border-beforeafter-width) var(--hexagon-hover-border-color);
+    border-left: solid var(--hexagon-hover-border-beforeafter-width) var(--hexagon-hover-border-color);
+}
+
+.hexagon:hover span {
+    font-size: var(--hexagon-hover-span-text-size);
+    color: var(--hexagon-hover-span-color);
+    top: var(--hexagon-hover-span-top);
+    width: var(--hexagon-hover-span-width);
+    height: var(--hexagon-hover-span-height);
+}
     </style>
 </head>
 
@@ -132,105 +187,175 @@
     </header>
     <section class="row m-3">
         <section class="row mb-3">
-            <div class="col">
-                <div class="form-floating">
-                  <input type="number" class="form-control" id="hexagonSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="300">
-                  <label for="hexagonSize">Size (px)</label>
-                </div>
-                <div class="form-floating">
-                    <select class="form-select" id="hexagonCursor" aria-label="Floating label select" onchange="HexagonSizeChange();">
-                        <option value="alias">alias</option>
-                        <option value="all-scroll">all-scroll</option>
-                        <option value="auto">auto</option>
-                        <option value="cell">cell</option>
-                        <option value="context-menu">context-menu</option>
-                        <option value="col-resize">col-resize</option>
-                        <option value="copy">copy</option>
-                        <option value="crosshair">crosshair</option>
-                        <option value="default" selected>default</option>
-                        <option value="e-resize">e-resize</option>
-                        <option value="ew-resize">ew-resize</option>
-                        <option value="grab">grab</option>
-                        <option value="grabbing">grabbing</option>
-                        <option value="help">help</option>
-                        <option value="move">move</option>
-                        <option value="n-resize">n-resize</option>
-                        <option value="ne-resize">ne-resize</option>
-                        <option value="nesw-resize">nesw-resize</option>
-                        <option value="ns-resize">ns-resize</option>
-                        <option value="nw-resize">nw-resize</option>
-                        <option value="nwse-resize">nwse-resize</option>
-                        <option value="no-drop">no-drop</option>
-                        <option value="not-allowed">not-allowed</option>
-                        <option value="pointer">pointer</option>
-                        <option value="progress">progress</option>
-                        <option value="row-resize">row-resize</option>
-                        <option value="s-resize">s-resize</option>
-                        <option value="se-resize">se-resize</option>
-                        <option value="sw-resize">sw-resize</option>
-                        <option value="text">text</option>
-                        <option value="w-resize">w-resize</option>
-                        <option value="wait">wait</option>
-                        <option value="zoom-in">zoom-in</option>
-                        <option value="zoom-out">zoom-out</option>
-                    </select>
-                    <label for="hexagonCursor">Cursor</label>
-                </div>
-                <div class="form-floating inputContainer">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="hexagonVariablesCSS" onchange="HexagonSizeChange();">
-                        <label class="form-check-label" for="hexagonVariablesCSS">Variables</label>
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general" type="button" role="tab" aria-controls="general" aria-selected="true">General</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="hover-tab" data-bs-toggle="tab" data-bs-target="#hover" type="button" role="tab" aria-controls="hover" aria-selected="false">Hover</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="300">
+                                <label for="hexagonSize">Size (px)</label>
+                            </div>
+                            <div class="form-floating">
+                                <select class="form-select" id="hexagonCursor" aria-label="Floating label select" onchange="HexagonSizeChange();">
+                                    <option value="alias">alias</option>
+                                    <option value="all-scroll">all-scroll</option>
+                                    <option value="auto">auto</option>
+                                    <option value="cell">cell</option>
+                                    <option value="context-menu">context-menu</option>
+                                    <option value="col-resize">col-resize</option>
+                                    <option value="copy">copy</option>
+                                    <option value="crosshair">crosshair</option>
+                                    <option value="default" selected>default</option>
+                                    <option value="e-resize">e-resize</option>
+                                    <option value="ew-resize">ew-resize</option>
+                                    <option value="grab">grab</option>
+                                    <option value="grabbing">grabbing</option>
+                                    <option value="help">help</option>
+                                    <option value="move">move</option>
+                                    <option value="n-resize">n-resize</option>
+                                    <option value="ne-resize">ne-resize</option>
+                                    <option value="nesw-resize">nesw-resize</option>
+                                    <option value="ns-resize">ns-resize</option>
+                                    <option value="nw-resize">nw-resize</option>
+                                    <option value="nwse-resize">nwse-resize</option>
+                                    <option value="no-drop">no-drop</option>
+                                    <option value="not-allowed">not-allowed</option>
+                                    <option value="pointer">pointer</option>
+                                    <option value="progress">progress</option>
+                                    <option value="row-resize">row-resize</option>
+                                    <option value="s-resize">s-resize</option>
+                                    <option value="se-resize">se-resize</option>
+                                    <option value="sw-resize">sw-resize</option>
+                                    <option value="text">text</option>
+                                    <option value="w-resize">w-resize</option>
+                                    <option value="wait">wait</option>
+                                    <option value="zoom-in">zoom-in</option>
+                                    <option value="zoom-out">zoom-out</option>
+                                </select>
+                                <label for="hexagonCursor">Cursor</label>
+                            </div>
+                            <div class="form-floating inputContainer">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="hexagonVariablesCSS" onchange="HexagonSizeChange();">
+                                    <label class="form-check-label" for="hexagonVariablesCSS">Variables</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating inputContainer">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="hexagonBackgroundChecks" id="hexagonBackgroundCheck1" value="option1" checked>
+                                    <label class="form-check-label" for="hexagonBackgroundCheck1">Solid Color</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="hexagonBackgroundChecks" id="hexagonBackgroundCheck2" value="option2" disabled>
+                                    <label class="form-check-label" for="hexagonBackgroundCheck2">Image</label>
+                                </div>
+                            </div>
+                            <div class="form-floating">
+                                <input type="color" class="form-control" id="hexagonColor" placeholder="Solid Color" oninput="HexagonSizeChange();" value="#2b2f38">
+                                <label for="hexagonColor">Solid Color</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonBorderSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="10">
+                                <label for="hexagonBorderSize">Border Size (px)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="color" class="form-control" id="hexagonBorderColor" placeholder="Border Color" oninput="HexagonSizeChange();" value="#f47721">
+                                <label for="hexagonBorderColor">Border Color</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonShadowBlur" placeholder="Blur (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="50">
+                                <label for="hexagonShadowBlur">Shadow Blur (px)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="color" class="form-control" id="hexagonShadowColor" placeholder="Shadow Color" oninput="HexagonSizeChange();" value="#00FFFF">
+                                <label for="hexagonShadowColor">Shadow Color</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="hexagonText" placeholder="Text" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="I am text!">
+                                <label for="hexagonText">Text</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="color" class="form-control" id="hexagonTextColor" placeholder="Text Color" oninput="HexagonSizeChange();" value="#f47721">
+                                <label for="hexagonTextColor">Text Color</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonTextSize" placeholder="Text Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="25">
+                                <label for="hexagonTextSize">Text Size (px)</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col">
-                <div class="form-floating inputContainer">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" checked>
-                        <label class="form-check-label" for="inlineRadio1">Solid Color</label>
+                <div class="tab-pane fade" id="hover" role="tabpanel" aria-labelledby="hover-tab">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonHoverSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="300">
+                                <label for="hexagonHoverSize">Size (px)</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating inputContainer">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="hexagonHoverBackgroundChecks" id="hexagonHoverBackgroundCheck1" value="option1" checked>
+                                    <label class="form-check-label" for="hexagonHoverBackgroundCheck1">Solid Color</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="hexagonHoverBackgroundChecks" id="hexagonHoverBackgroundCheck2" value="option2" disabled>
+                                    <label class="form-check-label" for="hexagonHoverBackgroundCheck2">Image</label>
+                                </div>
+                            </div>
+                            <div class="form-floating">
+                                <input type="color" class="form-control" id="hexagonHoverColor" placeholder="Solid Color" oninput="HexagonSizeChange();" value="#2b2f38">
+                                <label for="hexagonHoverColor">Solid Color</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonHoverBorderSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="10">
+                                <label for="hexagonHoverBorderSize">Border Size (px)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="color" class="form-control" id="hexagonHoverBorderColor" placeholder="Border Color" oninput="HexagonSizeChange();" value="#f47721">
+                                <label for="hexagonHoverBorderColor">Border Color</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonHoverShadowBlur" placeholder="Blur (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="50">
+                                <label for="hexagonHoverShadowBlur">Shadow Blur (px)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="color" class="form-control" id="hexagonHoverShadowColor" placeholder="Shadow Color" oninput="HexagonSizeChange();" value="#00FFFF">
+                                <label for="hexagonHoverShadowColor">Shadow Color</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-floating">
+                                <input type="color" class="form-control" id="hexagonHoverTextColor" placeholder="Text Color" oninput="HexagonSizeChange();" value="#f47721">
+                                <label for="hexagonHoverTextColor">Text Color</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonHoverTextSize" placeholder="Text Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="25">
+                                <label for="hexagonHoverTextSize">Text Size (px)</label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" disabled>
-                        <label class="form-check-label" for="inlineRadio2">Image</label>
-                    </div>
-                </div>
-                <div class="form-floating">
-                  <input type="color" class="form-control" id="hexagonColor" placeholder="Solid Color" oninput="HexagonSizeChange();" value="#2b2f38">
-                  <label for="hexagonColor">Solid Color</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-floating">
-                  <input type="number" class="form-control" id="hexagonBorderSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="10">
-                  <label for="hexagonBorderSize">Border Size (px)</label>
-                </div>
-                <div class="form-floating">
-                  <input type="color" class="form-control" id="hexagonBorderColor" placeholder="Border Color" oninput="HexagonSizeChange();" value="#f47721">
-                  <label for="hexagonBorderColor">Border Color</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-floating">
-                  <input type="number" class="form-control" id="hexagonShadowBlur" placeholder="Blur (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="50">
-                  <label for="hexagonShadowBlur">Shadow Blur (px)</label>
-                </div>
-                <div class="form-floating">
-                  <input type="color" class="form-control" id="hexagonShadowColor" placeholder="Shadow Color" oninput="HexagonSizeChange();" value="#00FFFF">
-                  <label for="hexagonShadowColor">Shadow Color</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-floating">
-                  <input type="text" class="form-control" id="hexagonText" placeholder="Text" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="I am text!">
-                  <label for="hexagonText">Text</label>
-                </div>
-                <div class="form-floating">
-                  <input type="color" class="form-control" id="hexagonTextColor" placeholder="Text Color" oninput="HexagonSizeChange();" value="#f47721">
-                  <label for="hexagonTextColor">Text Color</label>
-                </div>
-                <div class="form-floating">
-                  <input type="number" class="form-control" id="hexagonTextSize" placeholder="Text Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="25">
-                  <label for="hexagonTextSize">Text Size (px)</label>
                 </div>
             </div>
         </section>
@@ -251,18 +376,21 @@
     </section>
 
     <script>
-        function ColorHexToRGB(Hex){
-            if (Hex[0] == "#") Hex = Hex.slice(1);
-            if (Hex.length != 6) throw "Only six-digit hex colors are allowed.";
-            const ArrayHex = Hex.match(/.{1,2}/g);
-            const ArrayRGB = [
-                parseInt(ArrayHex[0], 16),
-                parseInt(ArrayHex[1], 16),
-                parseInt(ArrayHex[2], 16)
-            ];
-            return ArrayRGB;
-        }
         function HexagonSizeChange(){
+            function ColorHexToRGB(Hex){
+                if (Hex[0] == "#") Hex = Hex.slice(1);
+                if (Hex.length != 6) throw "Only six-digit hex colors are allowed.";
+                const ArrayHex = Hex.match(/.{1,2}/g);
+                const ArrayRGB = [
+                    parseInt(ArrayHex[0], 16),
+                    parseInt(ArrayHex[1], 16),
+                    parseInt(ArrayHex[2], 16)
+                ];
+                return ArrayRGB;
+            }
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // General
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             const HexagonCursor = document.getElementById("hexagonCursor").value;
             const HexagonColor = document.getElementById("hexagonColor").value; 
             let HexagonWidth = document.getElementById("hexagonSize").value; 
@@ -307,6 +435,51 @@
             document.documentElement.style.setProperty("--hexagon-span-top", `${HexagonShadowSpanTop}px`);
             document.documentElement.style.setProperty("--hexagon-span-width", `${HexagonShadowSpanWidth}px`);
             document.documentElement.style.setProperty("--hexagon-span-height", `${HexagonShadowSpanHeight}px`);
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // Hover
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            const HexagonHoverColor = document.getElementById("hexagonHoverColor").value; 
+            let HexagonHoverWidth = document.getElementById("hexagonHoverSize").value; 
+            if (HexagonHoverWidth == "") HexagonHoverWidth = 0;
+            const HexagonHoverHeight = HexagonHoverWidth / Math.sqrt(3);
+            const HexagonHoverMarginTop = HexagonHoverHeight/2;
+            const HexagonHoverBeforeAfterWidthHeight = HexagonHoverWidth / Math.sqrt(2);
+            const HexagonHoverBeforeAftertopBottom = HexagonHoverBeforeAfterWidthHeight / -2;
+            let HexagonHoverBorderSize = document.getElementById("hexagonHoverBorderSize").value;
+            if (HexagonHoverBorderSize == "") HexagonHoverBorderSize = 0;
+            const HexagonHoverBorderColor = document.getElementById("hexagonHoverBorderColor").value;
+            const HexagonHoverBeforeAfterLeft = ((HexagonHoverWidth - (HexagonHoverWidth/Math.sqrt(2))) / 2) - HexagonHoverBorderSize;
+            const HexagonHoverBorderBeforeAfterWidth = HexagonHoverBorderSize * Math.sqrt(2);
+            let HexagonHoverShadowBlur = document.getElementById("hexagonHoverShadowBlur").value;
+            if (HexagonHoverShadowBlur == "") HexagonHoverShadowBlur = 0;
+            const HexagonHoverShadowColor = document.getElementById("hexagonHoverShadowColor").value;
+            const HexagonHoverShadowColorArrayRGB = ColorHexToRGB(HexagonHoverShadowColor);
+            let HexagonHoverSpanTextSize = document.getElementById("hexagonHoverTextSize").value;
+            if (HexagonHoverSpanTextSize == "") hexagonHoverSpanTextSize = 0;
+            const HexagonHoverSpanColor = document.getElementById("hexagonHoverTextColor").value;
+            const HexagonHoverShadowSpanTop = HexagonHoverBorderSize * Math.tan(30 * Math.PI/180);
+            const HexagonHoverShadowSpanWidth = HexagonHoverWidth - (HexagonHoverBorderSize * 2); 
+            const HexagonHoverShadowSpanHeight = (HexagonHoverHeight - (HexagonHoverBorderSize * Math.tan(30 * Math.PI/180) * 2)).toFixed(4);
+            document.documentElement.style.setProperty("--hexagon-hover-width", `${HexagonHoverWidth}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-height", `${HexagonHoverHeight}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-margin-top", `${HexagonHoverMarginTop}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-beforeafter-widthheight", `${HexagonHoverBeforeAfterWidthHeight}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-beforeafter-topbottom", `${HexagonHoverBeforeAftertopBottom}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-beforeafter-left", `${HexagonHoverBeforeAfterLeft}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-color", `${HexagonHoverColor}`);
+            document.documentElement.style.setProperty("--hexagon-hover-border-color", `${HexagonHoverBorderColor}`);
+            document.documentElement.style.setProperty("--hexagon-hover-border-width", `${HexagonHoverBorderSize}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-border-beforeafter-width", `${HexagonHoverBorderBeforeAfterWidth}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-shadow-blur", `${HexagonHoverShadowBlur}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-shadow-color", `rgba(${HexagonHoverShadowColorArrayRGB[0]},${HexagonHoverShadowColorArrayRGB[1]},${HexagonHoverShadowColorArrayRGB[2]},1)`);
+            document.documentElement.style.setProperty("--hexagon-hover-span-text-size", `${HexagonHoverSpanTextSize}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-span-color", `${HexagonHoverSpanColor}`);
+            document.documentElement.style.setProperty("--hexagon-hover-span-top", `${HexagonHoverShadowSpanTop}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-span-width", `${HexagonHoverShadowSpanWidth}px`);
+            document.documentElement.style.setProperty("--hexagon-hover-span-height", `${HexagonHoverShadowSpanHeight}px`);
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             
             if (HexagonVariablesCSS){
                 document.getElementById("layHexagonCodeCSS").innerHTML =
@@ -328,7 +501,25 @@
     --hexagon-span-text-size: ${hexagonSpanTextSize}px;
     --hexagon-span-top: ${HexagonShadowSpanTop}px;
     --hexagon-span-width: ${HexagonShadowSpanWidth}px;
-    --hexagon-span-height: ${HexagonShadowSpanHeight}px;
+    --hexagon-span-height: ${HexagonShadowSpanHeight}px;  
+      
+    --hexagon-hoverwidth: ${HexagonHoverWidth}px;
+    --hexagon-hoverheight: ${HexagonHoverHeight}px;
+    --hexagon-hovermargin-top: ${HexagonHoverMarginTop}px;
+    --hexagon-hoverbeforeafter-widthheight: ${HexagonHoverBeforeAfterWidthHeight}px;
+    --hexagon-hoverbeforeafter-topbottom: ${HexagonHoverBeforeAftertopBottom}px;
+    --hexagon-hoverbeforeafter-left: ${HexagonHoverBeforeAfterLeft}px;
+    --hexagon-hoverborder-width: ${HexagonHoverBorderSize}px;
+    --hexagon-hoverborder-beforeafter-width: ${HexagonHoverBorderBeforeAfterWidth}px;
+    --hexagon-hovercolor: ${HexagonHoverColor};
+    --hexagon-hoverborder-color: ${HexagonHoverBorderColor};
+    --hexagon-hovershadow-color: rgba(${HexagonHoverShadowColorArrayRGB[0]},${HexagonHoverShadowColorArrayRGB[1]},${HexagonHoverShadowColorArrayRGB[2]},1);
+    --hexagon-hovershadow-blur: ${HexagonHoverShadowBlur}px;
+    --hexagon-hoverspan-color: ${HexagonHoverSpanColor};
+    --hexagon-hoverspan-text-size: ${HexagonHoverSpanTextSize}px;
+    --hexagon-hoverspan-top: ${HexagonHoverShadowSpanTop}px;
+    --hexagon-hoverspan-width: ${HexagonHoverShadowSpanWidth}px;
+    --hexagon-hoverspan-height: ${HexagonHoverShadowSpanHeight}px;
 }
                 ` + document.getElementById("HexagonCodeCSS").innerHTML;
             } else {
@@ -351,7 +542,25 @@
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-text-size)",`${hexagonSpanTextSize}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-top)",`${HexagonShadowSpanTop}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-width)",`${HexagonShadowSpanWidth}px`);
-                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-height)",`${HexagonShadowSpanHeight}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-height)",`${HexagonShadowSpanHeight}px`);     
+
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-width)",`${HexagonHoverWidth}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-height)",`${HexagonHoverHeight}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-margin-top)",`${HexagonHoverMarginTop}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-beforeafter-widthheight)",`${HexagonHoverBeforeAfterWidthHeight}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-beforeafter-topbottom)",`${HexagonHoverBeforeAftertopBottom}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-beforeafter-left)",`${HexagonHoverBeforeAfterLeft}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-border-width)",`${HexagonHoverBorderSize}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-border-beforeafter-width)",`${HexagonHoverBorderBeforeAfterWidth}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-color)",`${HexagonHoverColor}`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-border-color)",`${HexagonHoverBorderColor}`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-shadow-color)",`rgba(${HexagonHoverShadowColorArrayRGB[0]},${HexagonHoverShadowColorArrayRGB[1]},${HexagonHoverShadowColorArrayRGB[2]},1)`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-shadow-blur)",`${HexagonHoverShadowBlur}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-color)",`${HexagonHoverSpanColor}`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-text-size)",`${HexagonHoverSpanTextSize}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-top)",`${HexagonHoverShadowSpanTop}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-width)",`${HexagonHoverShadowSpanWidth}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-height)",`${HexagonHoverShadowSpanHeight}px`);
                 document.getElementById("layHexagonCodeCSS").innerHTML = HexagonCodeCSS;
             }
             let HexagonHTML = 

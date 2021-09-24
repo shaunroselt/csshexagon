@@ -629,9 +629,9 @@
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-height)",`${HexagonHoverShadowSpanHeight}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-transition)",`${HexagonHoverSpanTransition}s`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-transition)",`${HexagonHoverTransition}s`);
-                document.getElementById("layHexagonCodeCSS").innerHTML = HexagonCodeCSS;
+                layHexagonCodeCSS.innerHTML = HexagonCodeCSS;
             }
-            if (HexagonHover) document.getElementById("layHexagonCodeCSS").innerHTML = document.getElementById("layHexagonCodeCSS").innerHTML + document.getElementById("HexagonHoverCodeCSS").innerHTML;
+            if (HexagonHover) layHexagonCodeCSS.innerHTML = layHexagonCodeCSS.innerHTML + document.getElementById("HexagonHoverCodeCSS").innerHTML;
             let HexagonHTML = 
 `<div class="hexagon">
     <span>${HexagonSpanText}</span>

@@ -53,6 +53,8 @@
             --hexagon-hover-span-top: 5.773502691896257px;
             --hexagon-hover-span-width: 280px;
             --hexagon-hover-span-height: 161.6581px;
+            --hexagon-hover-span-transition: 0s;
+            --hexagon-hover-transition: 0s;
         }
         .inputContainer {    
             padding: .375rem .75rem;
@@ -74,6 +76,7 @@
     border-left: solid var(--hexagon-border-width) var(--hexagon-border-color);
     border-right: solid var(--hexagon-border-width) var(--hexagon-border-color);
     display: grid;
+    transition: var(--hexagon-hover-transition);
 }
 
 .hexagon:before, .hexagon:after {
@@ -86,6 +89,7 @@
     background-color: inherit;
     left: var(--hexagon-beforeafter-left);
     box-shadow: 0 0 var(--hexagon-shadow-blur) var(--hexagon-shadow-color);
+    transition: var(--hexagon-hover-transition);
 }
 
 .hexagon:before {
@@ -113,8 +117,10 @@
     height: var(--hexagon-span-height);
     z-index: 2;
     background: inherit;
+    transition: var(--hexagon-hover-span-transition);
 }
-
+    </style>
+    <style id="HexagonHoverCodeCSS">
 .hexagon:hover {
     width: var(--hexagon-hover-width); 
     height: var(--hexagon-hover-height);
@@ -195,7 +201,7 @@
                     <button class="nav-link" id="hover-tab" data-bs-toggle="tab" data-bs-target="#hover" type="button" role="tab" aria-controls="hover" aria-selected="false">Hover</button>
                 </li>
             </ul>
-            <div class="tab-content" id="myTabContent">
+            <div class="tab-content mt-3" id="myTabContent">
                 <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
                     <div class="row">
                         <div class="col">
@@ -304,9 +310,19 @@
                 <div class="tab-pane fade" id="hover" role="tabpanel" aria-labelledby="hover-tab">
                     <div class="row">
                         <div class="col">
+                            <div class="form-floating inputContainer">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="hexagonHover" onchange="HexagonSizeChange();">
+                                    <label class="form-check-label" for="hexagonHover">Hover</label>
+                                </div>
+                            </div>
                             <div class="form-floating">
                                 <input type="number" class="form-control" id="hexagonHoverSize" placeholder="Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="300">
                                 <label for="hexagonHoverSize">Size (px)</label>
+                            </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonHoverTransition" placeholder="Transition (s)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="0" step="0.1">
+                                <label for="hexagonHoverTransition">Transition (s)</label>
                             </div>
                         </div>
                         <div class="col">
@@ -354,6 +370,10 @@
                                 <input type="number" class="form-control" id="hexagonHoverTextSize" placeholder="Text Size (px)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="25">
                                 <label for="hexagonHoverTextSize">Text Size (px)</label>
                             </div>
+                            <div class="form-floating">
+                                <input type="number" class="form-control" id="hexagonHoverTextTransition" placeholder="Transition (s)" onkeyup="HexagonSizeChange();" onchange="HexagonSizeChange();" value="0" step="0.1">
+                                <label for="hexagonHoverTextTransition">Transition (s)</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -388,6 +408,15 @@
                 ];
                 return ArrayRGB;
             }
+            const HexagonHover = document.getElementById("hexagonHover").checked; 
+            if (HexagonHover) {
+                document.getElementById("hover").querySelectorAll("input").forEach((element)=>{element.removeAttribute("disabled")}); // Enable Hover
+            }else {
+                document.getElementById("hover").querySelectorAll("input").forEach((element)=>{element.setAttribute("disabled",true)}); // Disable Hover
+            }
+            document.getElementById("hexagonHover").removeAttribute("disabled");
+            document.getElementById("hexagonHoverBackgroundCheck2").setAttribute("disabled",true);
+
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             // General
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -408,10 +437,10 @@
             if (HexagonShadowBlur == "") HexagonShadowBlur = 0;
             const HexagonShadowColor = document.getElementById("hexagonShadowColor").value;
             const HexagonShadowColorArrayRGB = ColorHexToRGB(HexagonShadowColor);
-            const hexagonSpanText = document.getElementById("hexagonText").value;
-            let hexagonSpanTextSize = document.getElementById("hexagonTextSize").value;
-            if (hexagonSpanTextSize == "") hexagonSpanTextSize = 0;
-            const hexagonSpanColor = document.getElementById("hexagonTextColor").value;
+            const HexagonSpanText = document.getElementById("hexagonText").value;
+            let HexagonSpanTextSize = document.getElementById("hexagonTextSize").value;
+            if (HexagonSpanTextSize == "") HexagonSpanTextSize = 0;
+            const HexagonSpanColor = document.getElementById("hexagonTextColor").value;
             const HexagonShadowSpanTop = HexagonBorderSize * Math.tan(30 * Math.PI/180);
             const HexagonShadowSpanWidth = HexagonWidth - (HexagonBorderSize * 2); 
             const HexagonShadowSpanHeight = (HexagonHeight - (HexagonBorderSize * Math.tan(30 * Math.PI/180) * 2)).toFixed(4);
@@ -429,9 +458,9 @@
             document.documentElement.style.setProperty("--hexagon-border-beforeafter-width", `${HexagonBorderBeforeAfterWidth}px`);
             document.documentElement.style.setProperty("--hexagon-shadow-blur", `${HexagonShadowBlur}px`);
             document.documentElement.style.setProperty("--hexagon-shadow-color", `rgba(${HexagonShadowColorArrayRGB[0]},${HexagonShadowColorArrayRGB[1]},${HexagonShadowColorArrayRGB[2]},1)`);
-            document.getElementById("layHexagonText").innerHTML = hexagonSpanText;
-            document.documentElement.style.setProperty("--hexagon-span-text-size", `${hexagonSpanTextSize}px`);
-            document.documentElement.style.setProperty("--hexagon-span-color", `${hexagonSpanColor}`);
+            document.getElementById("layHexagonText").innerHTML = HexagonSpanText;
+            document.documentElement.style.setProperty("--hexagon-span-text-size", `${HexagonSpanTextSize}px`);
+            document.documentElement.style.setProperty("--hexagon-span-color", `${HexagonSpanColor}`);
             document.documentElement.style.setProperty("--hexagon-span-top", `${HexagonShadowSpanTop}px`);
             document.documentElement.style.setProperty("--hexagon-span-width", `${HexagonShadowSpanWidth}px`);
             document.documentElement.style.setProperty("--hexagon-span-height", `${HexagonShadowSpanHeight}px`);
@@ -462,27 +491,56 @@
             const HexagonHoverShadowSpanTop = HexagonHoverBorderSize * Math.tan(30 * Math.PI/180);
             const HexagonHoverShadowSpanWidth = HexagonHoverWidth - (HexagonHoverBorderSize * 2); 
             const HexagonHoverShadowSpanHeight = (HexagonHoverHeight - (HexagonHoverBorderSize * Math.tan(30 * Math.PI/180) * 2)).toFixed(4);
-            document.documentElement.style.setProperty("--hexagon-hover-width", `${HexagonHoverWidth}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-height", `${HexagonHoverHeight}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-margin-top", `${HexagonHoverMarginTop}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-beforeafter-widthheight", `${HexagonHoverBeforeAfterWidthHeight}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-beforeafter-topbottom", `${HexagonHoverBeforeAftertopBottom}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-beforeafter-left", `${HexagonHoverBeforeAfterLeft}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-color", `${HexagonHoverColor}`);
-            document.documentElement.style.setProperty("--hexagon-hover-border-color", `${HexagonHoverBorderColor}`);
-            document.documentElement.style.setProperty("--hexagon-hover-border-width", `${HexagonHoverBorderSize}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-border-beforeafter-width", `${HexagonHoverBorderBeforeAfterWidth}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-shadow-blur", `${HexagonHoverShadowBlur}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-shadow-color", `rgba(${HexagonHoverShadowColorArrayRGB[0]},${HexagonHoverShadowColorArrayRGB[1]},${HexagonHoverShadowColorArrayRGB[2]},1)`);
-            document.documentElement.style.setProperty("--hexagon-hover-span-text-size", `${HexagonHoverSpanTextSize}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-span-color", `${HexagonHoverSpanColor}`);
-            document.documentElement.style.setProperty("--hexagon-hover-span-top", `${HexagonHoverShadowSpanTop}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-span-width", `${HexagonHoverShadowSpanWidth}px`);
-            document.documentElement.style.setProperty("--hexagon-hover-span-height", `${HexagonHoverShadowSpanHeight}px`);
+            let HexagonHoverTransition = document.getElementById("hexagonHoverTransition").value;
+            if (HexagonHoverTransition == "") HexagonHoverTransition = 0;
+            let HexagonHoverSpanTransition = document.getElementById("hexagonHoverTextTransition").value;
+            if (HexagonHoverSpanTransition == "") HexagonHoverSpanTransition = 0;
+            if (HexagonHover) {
+                document.documentElement.style.setProperty("--hexagon-hover-width", `${HexagonHoverWidth}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-height", `${HexagonHoverHeight}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-margin-top", `${HexagonHoverMarginTop}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-beforeafter-widthheight", `${HexagonHoverBeforeAfterWidthHeight}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-beforeafter-topbottom", `${HexagonHoverBeforeAftertopBottom}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-beforeafter-left", `${HexagonHoverBeforeAfterLeft}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-color", `${HexagonHoverColor}`);
+                document.documentElement.style.setProperty("--hexagon-hover-border-color", `${HexagonHoverBorderColor}`);
+                document.documentElement.style.setProperty("--hexagon-hover-border-width", `${HexagonHoverBorderSize}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-border-beforeafter-width", `${HexagonHoverBorderBeforeAfterWidth}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-shadow-blur", `${HexagonHoverShadowBlur}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-shadow-color", `rgba(${HexagonHoverShadowColorArrayRGB[0]},${HexagonHoverShadowColorArrayRGB[1]},${HexagonHoverShadowColorArrayRGB[2]},1)`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-text-size", `${HexagonHoverSpanTextSize}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-color", `${HexagonHoverSpanColor}`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-top", `${HexagonHoverShadowSpanTop}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-width", `${HexagonHoverShadowSpanWidth}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-height", `${HexagonHoverShadowSpanHeight}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-transition", `${HexagonHoverSpanTransition}s`);
+                document.documentElement.style.setProperty("--hexagon-hover-transition", `${HexagonHoverTransition}s`);
+            } else {
+                document.documentElement.style.setProperty("--hexagon-hover-width", `${HexagonWidth}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-height", `${HexagonHeight}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-margin-top", `${HexagonMarginTop}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-beforeafter-widthheight", `${HexagonBeforeAfterWidthHeight}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-beforeafter-topbottom", `${HexagonBeforeAftertopBottom}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-beforeafter-left", `${HexagonBeforeAfterLeft}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-color", `${HexagonColor}`);
+                document.documentElement.style.setProperty("--hexagon-hover-border-color", `${HexagonBorderColor}`);
+                document.documentElement.style.setProperty("--hexagon-hover-border-width", `${HexagonBorderSize}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-border-beforeafter-width", `${HexagonBorderBeforeAfterWidth}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-shadow-blur", `${HexagonShadowBlur}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-shadow-color", `rgba(${HexagonShadowColorArrayRGB[0]},${HexagonShadowColorArrayRGB[1]},${HexagonShadowColorArrayRGB[2]},1)`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-text-size", `${HexagonSpanTextSize}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-color", `${HexagonSpanColor}`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-top", `${HexagonShadowSpanTop}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-width", `${HexagonShadowSpanWidth}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-height", `${HexagonShadowSpanHeight}px`);
+                document.documentElement.style.setProperty("--hexagon-hover-span-transition", `0s`);
+                document.documentElement.style.setProperty("--hexagon-hover-transition", `0s`);
+            }
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             
+            const layHexagonCodeCSS = document.getElementById("layHexagonCodeCSS");
             if (HexagonVariablesCSS){
-                document.getElementById("layHexagonCodeCSS").innerHTML =
+                layHexagonCodeCSS.innerHTML =
 `:root {
     --hexagon-cursor: ${HexagonCursor};
     --hexagon-width: ${HexagonWidth}px;
@@ -497,31 +555,39 @@
     --hexagon-border-color: ${HexagonBorderColor};
     --hexagon-shadow-color: rgba(${HexagonShadowColorArrayRGB[0]},${HexagonShadowColorArrayRGB[1]},${HexagonShadowColorArrayRGB[2]},1);
     --hexagon-shadow-blur: ${HexagonShadowBlur}px;
-    --hexagon-span-color: ${hexagonSpanColor};
-    --hexagon-span-text-size: ${hexagonSpanTextSize}px;
+    --hexagon-span-color: ${HexagonSpanColor};
+    --hexagon-span-text-size: ${HexagonSpanTextSize}px;
     --hexagon-span-top: ${HexagonShadowSpanTop}px;
     --hexagon-span-width: ${HexagonShadowSpanWidth}px;
-    --hexagon-span-height: ${HexagonShadowSpanHeight}px;  
-      
-    --hexagon-hoverwidth: ${HexagonHoverWidth}px;
-    --hexagon-hoverheight: ${HexagonHoverHeight}px;
-    --hexagon-hovermargin-top: ${HexagonHoverMarginTop}px;
-    --hexagon-hoverbeforeafter-widthheight: ${HexagonHoverBeforeAfterWidthHeight}px;
-    --hexagon-hoverbeforeafter-topbottom: ${HexagonHoverBeforeAftertopBottom}px;
-    --hexagon-hoverbeforeafter-left: ${HexagonHoverBeforeAfterLeft}px;
-    --hexagon-hoverborder-width: ${HexagonHoverBorderSize}px;
-    --hexagon-hoverborder-beforeafter-width: ${HexagonHoverBorderBeforeAfterWidth}px;
-    --hexagon-hovercolor: ${HexagonHoverColor};
-    --hexagon-hoverborder-color: ${HexagonHoverBorderColor};
-    --hexagon-hovershadow-color: rgba(${HexagonHoverShadowColorArrayRGB[0]},${HexagonHoverShadowColorArrayRGB[1]},${HexagonHoverShadowColorArrayRGB[2]},1);
-    --hexagon-hovershadow-blur: ${HexagonHoverShadowBlur}px;
-    --hexagon-hoverspan-color: ${HexagonHoverSpanColor};
-    --hexagon-hoverspan-text-size: ${HexagonHoverSpanTextSize}px;
-    --hexagon-hoverspan-top: ${HexagonHoverShadowSpanTop}px;
-    --hexagon-hoverspan-width: ${HexagonHoverShadowSpanWidth}px;
-    --hexagon-hoverspan-height: ${HexagonHoverShadowSpanHeight}px;
-}
-                ` + document.getElementById("HexagonCodeCSS").innerHTML;
+    --hexagon-span-height: ${HexagonShadowSpanHeight}px;
+`;
+                if (HexagonHover) {
+                    layHexagonCodeCSS.innerHTML = layHexagonCodeCSS.innerHTML + 
+`    
+    --hexagon-hover-width: ${HexagonHoverWidth}px;
+    --hexagon-hover-height: ${HexagonHoverHeight}px;
+    --hexagon-hover-margin-top: ${HexagonHoverMarginTop}px;
+    --hexagon-hover-beforeafter-widthheight: ${HexagonHoverBeforeAfterWidthHeight}px;
+    --hexagon-hover-beforeafter-topbottom: ${HexagonHoverBeforeAftertopBottom}px;
+    --hexagon-hover-beforeafter-left: ${HexagonHoverBeforeAfterLeft}px;
+    --hexagon-hover-border-width: ${HexagonHoverBorderSize}px;
+    --hexagon-hover-border-beforeafter-width: ${HexagonHoverBorderBeforeAfterWidth}px;
+    --hexagon-hover-color: ${HexagonHoverColor};
+    --hexagon-hover-border-color: ${HexagonHoverBorderColor};
+    --hexagon-hover-shadow-color: rgba(${HexagonHoverShadowColorArrayRGB[0]},${HexagonHoverShadowColorArrayRGB[1]},${HexagonHoverShadowColorArrayRGB[2]},1);
+    --hexagon-hover-shadow-blur: ${HexagonHoverShadowBlur}px;
+    --hexagon-hover-span-color: ${HexagonHoverSpanColor};
+    --hexagon-hover-span-text-size: ${HexagonHoverSpanTextSize}px;
+    --hexagon-hover-span-top: ${HexagonHoverShadowSpanTop}px;
+    --hexagon-hover-span-width: ${HexagonHoverShadowSpanWidth}px;
+    --hexagon-hover-span-height: ${HexagonHoverShadowSpanHeight}px;
+    --hexagon-hover-span-height: ${HexagonHoverShadowSpanHeight}px;
+    --hexagon-hover-span-transition: ${HexagonHoverSpanTransition}s;
+    --hexagon-hover-transition: ${HexagonHoverTransition}s;
+`;
+                }
+                layHexagonCodeCSS.innerHTML = layHexagonCodeCSS.innerHTML + `}
+` + document.getElementById("HexagonCodeCSS").innerHTML;
             } else {
                 let HexagonCodeCSS = document.getElementById("HexagonCodeCSS").innerHTML;
                 if ((HexagonCodeCSS.charAt(0) != ".") || (HexagonCodeCSS.charAt(0) != ":")) HexagonCodeCSS = HexagonCodeCSS.slice(1);
@@ -538,8 +604,8 @@
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-border-color)",`${HexagonBorderColor}`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-shadow-color)",`rgba(${HexagonShadowColorArrayRGB[0]},${HexagonShadowColorArrayRGB[1]},${HexagonShadowColorArrayRGB[2]},1)`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-shadow-blur)",`${HexagonShadowBlur}px`);
-                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-color)",`${hexagonSpanColor}`);
-                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-text-size)",`${hexagonSpanTextSize}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-color)",`${HexagonSpanColor}`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-text-size)",`${HexagonSpanTextSize}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-top)",`${HexagonShadowSpanTop}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-width)",`${HexagonShadowSpanWidth}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-span-height)",`${HexagonShadowSpanHeight}px`);     
@@ -561,11 +627,14 @@
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-top)",`${HexagonHoverShadowSpanTop}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-width)",`${HexagonHoverShadowSpanWidth}px`);
                 HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-height)",`${HexagonHoverShadowSpanHeight}px`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-span-transition)",`${HexagonHoverSpanTransition}s`);
+                HexagonCodeCSS = HexagonCodeCSS.replaceAll("var(--hexagon-hover-transition)",`${HexagonHoverTransition}s`);
                 document.getElementById("layHexagonCodeCSS").innerHTML = HexagonCodeCSS;
             }
+            if (HexagonHover) document.getElementById("layHexagonCodeCSS").innerHTML = document.getElementById("layHexagonCodeCSS").innerHTML + document.getElementById("HexagonHoverCodeCSS").innerHTML;
             let HexagonHTML = 
 `<div class="hexagon">
-    <span>${hexagonSpanText}</span>
+    <span>${HexagonSpanText}</span>
 </div>`;
             HexagonHTML = HexagonHTML.replaceAll("<","&lt;");
             HexagonHTML = HexagonHTML.replaceAll(">","&gt");

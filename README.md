@@ -7,3 +7,4 @@ Plans:
 - Image Background
 - Rotate hexagon for flat top
 - Index Page URL sharable (Store values in query string)
+- Animations for hexagon

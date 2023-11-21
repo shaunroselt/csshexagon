@@ -3,12 +3,14 @@
 ## Tech Stack
 shaunroselt/csshexagon is built on the following main stack:
 
+
 Full tech stack [here](/techstack.md)
 --- Readme.md Snippet without images End ---
 
 --- Readme.md Snippet with images Start ---
 ## Tech Stack
 shaunroselt/csshexagon is built on the following main stack:
+
 
 Full tech stack [here](/techstack.md)
 --- Readme.md Snippet with images End ---
@@ -18,7 +20,7 @@ Full tech stack [here](/techstack.md)
 # Tech Stack File
 ![](https://img.stackshare.io/repo.svg "repo") [shaunroselt/csshexagon](https://github.com/shaunroselt/csshexagon)![](https://img.stackshare.io/public_badge.svg "public")
 <br/><br/>
-|1<br/>Tools used|11/09/23 <br/>Report generated|
+|2<br/>Tools used|11/21/23 <br/>Report generated|
 |------|------|
 </div>
 
@@ -35,7 +37,20 @@ Full tech stack [here](/techstack.md)
 </tr>
 </table>
 
+## Other (1)
+<table><tr>
+  <td align='center'>
+  <img width='36' height='36' src='https://img.stackshare.io/service/2270/no-img-open-source.png' alt='HTML'>
+  <br>
+  <sub><a href="http://">HTML</a></sub>
+  <br>
+  <sub></sub>
+</td>
+
+</tr>
+</table>
+
 <br/>
 <div align='center'>
 
-Generated via [Stack File](https://github.com/apps/stack-file)
+Generated via [Stack File](https://github.com/marketplace/stack-file)
